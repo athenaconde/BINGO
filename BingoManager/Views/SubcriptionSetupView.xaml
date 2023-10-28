@@ -1,0 +1,32 @@
+﻿<Window x:Class="BingoManager.Views.SubcriptionSetupView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:control="clr-namespace:BingoManager.Control"
+        Title="ricskeyz©software | Subscription key registration" Height="329" Width="439" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+      <Grid Margin="10" >
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.ColumnSpan="2" Content="Type your subscription key" FontWeight="Bold" Foreground="LightSkyBlue"/>
+        <WrapPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <Label  Content="Subscription key will register the application" />
+            <Label Content="to your computer."/>
+            </WrapPanel>
+        <!--<control:TextBox Grid.Column="1" BorderBrush="Blue" BorderThickness="1" InfoText="enter your company" Style="{DynamicResource WatermarkTextBoxStyle}"/>-->
+           <!--<control:TextBox Grid.Row="1" Grid.Column="1" BorderBrush="Blue" BorderThickness="1" InfoText="enter ypur address"  Style="{DynamicResource WatermarkTextBoxStyle}"/>-->
+            <TextBlock Grid.Row="2" Text="Subscription key:" Margin="0,0,5,0"/>
+            <control:TextBox Grid.Row="2" Grid.Column="1" x:Name="KeyTextBox" BorderBrush="Blue" BorderThickness="1" InfoText="enter subscription key" Style="{DynamicResource WatermarkTextBoxStyle}" Margin="10,0,10,0"/>
+            <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Margin="0,0,10,10">
+                <Button x:Name="OkButton"  Content="_Ok" MinWidth="50" Height="30"/>
+                <Button x:Name="CancelButton"  Content="_Cancel" MinWidth="50" Height="30" Margin="5,0,5,0"/>
+            </StackPanel>
+        </Grid>
+       
+</Window>

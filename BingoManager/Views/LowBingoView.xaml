@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="BingoManager.Views.LowBingoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:bingo_converter="http://www.RickyConde.com/bingo/sm/converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <bingo_converter:BoolToBackgroundConverter x:Key="BackGroundConverter"/>
+        <bingo_converter:BoolToBackgroundConverter x:Key="FormatNumber"/>
+        
+        <DataTemplate x:Key="itemTemplate">
+            <Border Background="{DynamicResource OrangeBackgroundBrush}"  BorderThickness="1" CornerRadius="20" Width="41" Height="41" Margin="1">
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Hyperlink Command="Search" CommandParameter="{Binding ElementName=SnumberTextBlock, Path=Text}">
+<!--Command="Delete" -->
+                        <TextBlock Name="Snumber1TextBlock" Text="{Binding}" FontFamily="Century Gothic" FontSize="28" TextAlignment="Center"/>
+                    </Hyperlink>
+                </Label>
+            </Border>    
+        </DataTemplate>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="SetLoingoCommand"
+                        Command="Search"
+                        Executed="SetLoingoCommand_Executed"/>
+    </UserControl.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+
+
+        </Grid.RowDefinitions>
+        <HeaderedContentControl Header="Low BINGO" Style="{DynamicResource SubDisplayArea}">
+            <!--<StackPanel HorizontalAlignment="Left" >
+               
+
+                
+            </StackPanel>-->
+            <ListBox ItemsSource="{Binding lowBingoNumbers}" ItemTemplate="{StaticResource itemTemplate}"/>
+        </HeaderedContentControl>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,248 @@
+﻿<UserControl x:Class="BingoManager.Views.BingoGamingControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vw="clr-namespace:BingoManager.Views"
+             xmlns:bingo_converter="http://www.RickyConde.com/bingo/sm/converter"
+             xmlns:Bingo_Control="clr-namespace:BingoManager.Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="900">
+    <UserControl.Resources>
+        <bingo_converter:FormatNumberConverter x:Key="FormatNumber"/>
+        <bingo_converter:BoolToVisibilityConverter x:Key="VisibilityConverter"/>
+        <bingo_converter:CreateCardVisibilityConverter x:Key="CreateCardVisibilityConverter"/>
+        <DataTemplate x:Key="BNumberitemTemplate">
+            <Grid Width="26" Height="26" Margin="2">
+                <!--<TextBlock Name="textNumberTemp"  FontWeight="Bold" FontSize="14" Visibility="Collapsed"/>-->
+                <Border CornerRadius="12" BorderThickness="1" Background="Indigo" Visibility="{Binding Path=B.Isball,Converter={StaticResource VisibilityConverter}}"/>
+                <Label Name="label">
+                    <!-- -->
+                    <Hyperlink Command="Search" CommandParameter="{Binding ElementName=textNumber, Path=Text}">
+                        <!--Command="{Binding Path=SetBallCommand}"  -->
+                        <TextBlock Name="textNumber" Text="{Binding Path=B.Number,Converter={StaticResource FormatNumber}, ConverterParameter=00}" FontWeight="Bold" FontSize="14">
+
+                        </TextBlock>
+                    </Hyperlink>
+                </Label>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="gameCardItemTemplate">
+            <Border CornerRadius="2" BorderThickness="1" BorderBrush="Gray" Margin="1">
+                <vw:GameCardView  HorizontalAlignment="Center"/>
+            </Border>
+
+        </DataTemplate>
+        <DataTemplate x:Key="PlayingCardItemTemplate">
+            <Border CornerRadius="2" BorderThickness="1" BorderBrush="Gray" Margin="1">
+                <StackPanel>
+                    <TextBlock Text="{Binding SerialNumber,Converter={StaticResource FormatNumber},ConverterParameter=000000}" HorizontalAlignment="Center"/>
+                    <vw:CardView HorizontalAlignment="Center" Margin="2"/>
+                </StackPanel>
+
+            </Border>
+        
+        </DataTemplate>
+        <DataTemplate x:Key="RowitemTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding SerialNumber,Converter={StaticResource FormatNumber}, ConverterParameter=000000}" HorizontalAlignment="Center" Margin="2" FontWeight="DemiBold"/>
+           <vw:CardView Margin="2"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="RowTemplate">
+            <Border>
+                <ListBox ItemsSource="{Binding Tickets}" ItemTemplate="{StaticResource RowitemTemplate}"/>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="SetBallCommand" Command="Search"
+                        CanExecute="SetBallCommand_CanExecute"
+                        Executed="SetBallCommand_Executed"/>
+        <CommandBinding x:Name="CreateCommand" Command="New"
+                        CanExecute="CreateCommand_CanExecute"
+                        Executed="CreateCommand_Executed"/>
+        <CommandBinding x:Name="SaveNewGame" Command="Save"
+                        CanExecute="SaveNewGame_CanExecute"
+                        Executed="SaveNewGame_Executed"/>
+        <CommandBinding x:Name="RemoveGame" Command="Delete"
+                        CanExecute="RemoveGame_CanExecute"
+                        Executed="RemoveGame_Executed"/>
+    </UserControl.CommandBindings>
+    <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <HeaderedContentControl Grid.Column="1" Style="{StaticResource SubDisplayArea}" Header="Tally board" Margin="5">
+            <!--<Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>-->
+           
+                
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid  HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="45"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="20" Margin="0,0,5,0">
+                                <TextBlock Text="B" Style="{DynamicResource largeTextBoxHeaderStyle}"/>
+                            </Border>
+                            <Border Grid.Column="1" Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="20" Margin="0,0,5,0">
+                                <TextBlock Text="I" Style="{DynamicResource largeTextBoxHeaderStyle}"/>
+                            </Border>
+                            <Border Grid.Column="2" Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="20" Margin="0,0,5,0">
+                                <TextBlock Text="N" Style="{DynamicResource largeTextBoxHeaderStyle}"/>
+                            </Border>
+                            <Border Grid.Column="3" Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="20" Margin="0,0,5,0">
+                                <TextBlock Text="G" Style="{DynamicResource largeTextBoxHeaderStyle}"/>
+                            </Border>
+                            <Border Grid.Column="4" Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="20" >
+                                <TextBlock Text="O" Style="{DynamicResource largeTextBoxHeaderStyle}"/>
+                            </Border>
+                        </Grid>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Label Content="Balls count:" FontFamily="Verdana" FontWeight="DemiBold"/>
+                        <Border CornerRadius="15,0,15,0" BorderBrush="Brown" BorderThickness="1">
+                            <TextBlock Text="{Binding Path=GameBalls.Count}" TextAlignment="Center" FontSize="25" FontFamily="Century" Width="70" Height="30"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+                <ScrollViewer Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0" CornerRadius="0,60,0,0" BorderBrush="LightGray" BorderThickness="1">
+                               <Grid  HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="45"/>
+                                        <ColumnDefinition Width="45"/>
+                                        <ColumnDefinition Width="45"/>
+                                        <ColumnDefinition Width="45"/>
+                                        <ColumnDefinition Width="45"/>
+                                   </Grid.ColumnDefinitions>
+                                    <ListBox Grid.Column="0" ItemsSource="{Binding BNumbers}" ItemTemplate="{StaticResource BNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+                                    <ListBox Grid.Column="1" ItemsSource="{Binding INumbers}" ItemTemplate="{StaticResource BNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+                                    <ListBox Grid.Column="2" ItemsSource="{Binding NNumbers}" ItemTemplate="{StaticResource BNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+                                    <ListBox Grid.Column="3" ItemsSource="{Binding GNumbers}" ItemTemplate="{StaticResource BNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+                                    <ListBox Grid.Column="4" ItemsSource="{Binding ONumbers}" ItemTemplate="{StaticResource BNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+                                 </Grid>
+                            </Border>    
+                        <!--<StackPanel Grid.Column="1" VerticalAlignment="Top"  HorizontalAlignment="Left" Margin="10">
+                            <TextBlock Text="Enter number:" Foreground="LightGray" FontStyle="Italic"/>
+                            <Bingo_Control:TextBox  x:Name="EnterValueTextBox" Width="100" Height="60" AcceptNumbersOnly="True" FontSize="30" BorderBrush="Blue" BorderThickness="2.5" InfoText="enter number and press Enter key" ToolTip="enter number and press Enter key" Style="{DynamicResource WatermarkTextBoxStyle}"/>
+                        </StackPanel>-->
+                            <Border Grid.Column="1" CornerRadius="0,60,0,0" BorderBrush="LightGray" BorderThickness="1" Margin="10,0,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="Game(s) won:" Margin="5"/>
+                                <DataGrid  IsReadOnly="True" ItemsSource="{Binding WonGameCards}" CanUserAddRows="False" CanUserDeleteRows="False"
+                                           RowDetailsVisibilityMode="VisibleWhenSelected" RowDetailsTemplate="{StaticResource RowTemplate}" AutoGenerateColumns="False" AlternationCount="2" FrozenColumnCount="2" AlternatingRowBackground="LightGray" GridLinesVisibility="None">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Prize" Binding="{Binding Prize,StringFormat=c}"/>
+                                        <DataGridTextColumn Header="Game" MinWidth="100" Binding="{Binding GameName}"/>
+                                        <DataGridTextColumn Header="Total winners" Width="80" Binding="{Binding WinnerCount}"/>
+                                        <DataGridTextColumn Header="Prize each" Binding="{Binding PrizeEach,StringFormat=c}"/>
+                                    </DataGrid.Columns>
+                                    
+                                </DataGrid>
+                            </StackPanel>
+                            </Border>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                
+            <!--</Grid>-->
+        </HeaderedContentControl>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Expander Visibility="{Binding NewGameCard,Converter={StaticResource CreateCardVisibilityConverter}}" IsExpanded="True" ToolTip="Contains the view to create new game" Margin="10,5,0,5">
+                <HeaderedContentControl Header="Create game" Style="{StaticResource DisplayArea}" >
+                    <ScrollViewer>
+                        <StackPanel>
+                            <Label HorizontalAlignment="Right">
+                                <Hyperlink x:Name="SaveButton" Command="Save">
+                                    <!--Command="{Binding SaveGameCommand}"-->
+                                    <TextBlock Text="Save game"/>
+                                </Hyperlink>
+                            </Label>
+                            <Border CornerRadius="3" BorderBrush="Gray" BorderThickness="1" DataContext="{Binding Path=NewGameCard}">
+                                <vw:CreateGameView Margin="5"/>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                </HeaderedContentControl>
+            </Expander>
+            <HeaderedContentControl Grid.Row="1"   Style="{StaticResource SubDisplayArea}" Margin="10,5,0,5">
+                <HeaderedContentControl.Header>
+                    Today's game(s)
+                </HeaderedContentControl.Header>
+               
+                    <DockPanel LastChildFill="True">
+                        <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="3">
+                        <Label>
+                            <Hyperlink x:Name="RefreshGameList" Command="{Binding Path=RefreshListCommand}">
+                                <TextBlock Text="Refresh" FontWeight="Bold" FontFamily="Century Gothic" FontSize="20"/>
+                            </Hyperlink>
+                        </Label>
+                            <Label>
+                            <Hyperlink x:Name="AddGameButton" Command="New">
+                                <!--Command="{Binding CreateGameCommand}">-->
+                                    <TextBlock Text="Add game" FontSize="15"/>
+                                </Hyperlink>
+                            </Label>
+                            <Label >
+                                <Hyperlink x:Name="RemoveSelectedGame" Command="Delete">
+                                <!--Command="{Binding RemoveGameCard}"-->
+                                    <TextBlock Text="Remove game" FontSize="15"/>
+                                </Hyperlink>
+                            </Label>
+                        </WrapPanel>
+                        <ScrollViewer>
+                            <ListBox ItemsSource="{Binding GameCards}" SelectedItem="{Binding SelectedGameCard}" BorderBrush="Transparent" ItemTemplate="{StaticResource gameCardItemTemplate}"/>
+                        </ScrollViewer>
+                    </DockPanel>
+              </HeaderedContentControl>
+        </Grid>
+        <HeaderedContentControl  Grid.Column="2" Style="{StaticResource SubDisplayArea}" Margin="0,5,10,5">
+                <HeaderedContentControl.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text=" Playing cards: "/>
+                        <TextBlock Text="{Binding PlayingCards.Count,Converter={StaticResource FormatNumber},ConverterParameter=NumberFormat}"/>
+                    </StackPanel>
+                </HeaderedContentControl.Header>
+                <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Bingo_Control:TextBox AcceptNumbersOnly="True" BorderBrush="Blue" BorderThickness="1" x:Name="FindCardTextbox" InfoText="Search card number" Margin="5" Style="{DynamicResource WatermarkTextBoxStyle}" HorizontalAlignment="Right"/>
+                <CheckBox Grid.Row="1" IsChecked="{Binding Path=ShouldSelectedCardBeRemoved}" Content="Removed selected" Height="15"/>
+                    <ListBox Grid.Row="2" ItemsSource="{Binding PlayingCards}" SelectedItem="{Binding Path=SelectedCard}" ItemTemplate="{StaticResource PlayingCardItemTemplate}" Margin="0,5,0,0"/>
+                </Grid>
+            </HeaderedContentControl>
+        </Grid>
+</UserControl>

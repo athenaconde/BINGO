@@ -1,0 +1,19 @@
+﻿<Window x:Class="BingoManager.SystemManager.View.WinnerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             MinHeight="500">
+    <Grid>
+        <Border CornerRadius="5" BorderBrush="LightGray" BorderThickness="2" Margin="5">
+          <ListView AlternationCount="2" ItemsSource="{Binding CurrentWinningCards}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Card #" Width="100" DisplayMemberBinding="{Binding CardNumber}"/>
+                    <GridViewColumn Header="Game" Width="150" DisplayMemberBinding="{Binding GameName}"/>
+                    <GridViewColumn Header="Price" Width="100" DisplayMemberBinding="{Binding Price, StringFormat=c}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        </Border>
+    </Grid>
+</Window>

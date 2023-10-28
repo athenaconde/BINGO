@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="BingoManager.Control.ProgressLine"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="5" d:DesignWidth="100">
+          
+    <Grid>
+        <Rectangle Name="GradientLine" >
+            <Rectangle.Resources>
+                <Storyboard x:Key="Animation">
+                    <DoubleAnimation 
+                        Storyboard.TargetName="GradientStop2"
+                        Storyboard.TargetProperty="Offset"
+                        From="0.0" To="1.0" Duration="0:0:2.0"
+                        AutoReverse="True" RepeatBehavior="Forever" />
+                </Storyboard>
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5" x:Name="Gradient">
+                    <GradientStop x:Name="GradientStop1" Color="Yellow"  Offset="0.0" />
+                    <GradientStop x:Name="GradientStop2" Color="Orange"  Offset="0.5" />
+                    <GradientStop x:Name="GradientStop3" Color="Yellow"  Offset="1.0" />
+                    
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Grid>
+</UserControl>

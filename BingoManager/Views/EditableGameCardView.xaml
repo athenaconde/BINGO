@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="BingoManager.Views.EditableGameCardView" x:Name="EditableGameCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Bingo_Converter="http://www.RickyConde.com/bingo/sm/converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="200">
+    <UserControl.Resources>
+        <Bingo_Converter:BoolToVisibilityConverter x:Key="BoolVisibleConverter"/>
+        <Bingo_Converter:BoolToColorConverter x:Key="BoolColorConverter"/>
+         <Style x:Key="TextBoxHeaderStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <DataTemplate x:Key="BingoNumberitemTemplate">
+            <Grid Width="15" Height="15" Margin="2">
+                <Border CornerRadius="12" BorderThickness="1" Background="{Binding Isball,Converter={StaticResource BoolColorConverter}, ConverterParameter=reverse}" BorderBrush="Gray"/>
+                <Label>
+                    <Hyperlink Command="Print" CommandParameter="{Binding ElementName=textNumber,Path=Text}">
+                        <TextBlock Text="{Binding Number}" Name="textNumber" Width="13" FontWeight="Bold" FontSize="14" Foreground="Transparent"/>
+                    </Hyperlink>
+                </Label>
+               
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="MarkNumber" Command="Print" 
+                        CanExecute="MarkNumber_CanExecute"
+                        Executed="MarkNumber_Executed"/>
+    </UserControl.CommandBindings>
+           <Grid HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+            </Grid.ColumnDefinitions>
+            <Border Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="15" Margin="0,0,5,0">
+                <TextBlock Text="B" Style="{StaticResource TextBoxHeaderStyle}"/>
+            </Border>
+            <Border Grid.Column="1"  Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="15" Margin="0,0,5,0">
+                <TextBlock Text="I" Style="{StaticResource TextBoxHeaderStyle}"/>
+            </Border>
+            <Border Grid.Column="2"  Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="15" Margin="0,0,5,0">
+                <TextBlock Text="N" Style="{StaticResource TextBoxHeaderStyle}"/>
+            </Border>
+            <Border Grid.Column="3" Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="15" Margin="0,0,5,0">
+                <TextBlock Text="G" Style="{StaticResource TextBoxHeaderStyle}"/>
+            </Border>
+            <Border Grid.Column="4" Background="{StaticResource OrangeBackgroundBrush}" CornerRadius="15" Margin="0,0,5,0">
+                <TextBlock Text="O" Style="{StaticResource TextBoxHeaderStyle}"/>
+            </Border>
+            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding B}" ItemTemplate="{StaticResource BingoNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+            <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding I}" ItemTemplate="{StaticResource BingoNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+            <ListBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding N}" ItemTemplate="{StaticResource BingoNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+            <ListBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding G}" ItemTemplate="{StaticResource BingoNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+            <ListBox Grid.Row="1" Grid.Column="4" ItemsSource="{Binding O}" ItemTemplate="{StaticResource BingoNumberitemTemplate}" Background="Transparent" BorderBrush="Transparent"/>
+        </Grid>
+</UserControl>
+
+

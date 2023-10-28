@@ -1,0 +1,18 @@
+﻿<Window x:Class="BingoManager.Views.CardsLoaderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Bingo_Control="clr-namespace:BingoManager.Control"
+        Title="ricskeyz© software for B-I-N-G-O" Height="100" Width="300" 
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
+        Icon="/BingoManager;component/Dictionaries/Bingo.png">
+    <Grid>
+        <StackPanel  VerticalAlignment="Center">
+          <WrapPanel Orientation="Horizontal" >
+                <TextBlock Text="Loading cards...     "/>
+                <TextBlock Text="Please wait."/>
+        </WrapPanel>
+            <Bingo_Control:ProgressLine x:Name="progressLine" Height="10"/>
+            <!--<Bingo_Control:ProgressLine  Height="10" />-->
+        </StackPanel>
+    </Grid>
+</Window>

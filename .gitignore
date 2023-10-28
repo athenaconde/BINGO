@@ -1,0 +1,7 @@
+bin
+Debug
+*.scc
+/BingoManager.SystemManager/BingoManager.SystemManager.csproj.vspscc
+/BingoManager.SystemManager/secrets.txt
+/.vs/Bingo Tally Manager and Winning Card Notifier/FileContentIndex
+/.vs/Bingo Tally Manager and Winning Card Notifier/v17/.suo

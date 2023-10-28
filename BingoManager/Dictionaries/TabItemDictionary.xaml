@@ -1,0 +1,169 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--<ContextMenu x:Key="ClosableHeaderMenu">
+        <MenuItem Header="_Close" Command="{Binding Path=CloseCommand}" Icon="pack://Application:,,,/CafeManager.Images;component/Images/close.png"/>
+    </ContextMenu>-->
+    <ContextMenu  x:Key="ClosableHeaderMenu">
+        <MenuItem Header="Close" Command="{Binding Path=CloseCommand}"  />
+        <Separator/>
+        <!--<MenuItem Header="Close all" Command="{Binding Path=CloseCommand}" IsEnabled="False"/>-->
+    </ContextMenu>
+    <!--Template for TabItem header-->
+    <DataTemplate x:Key="tabItemHeaderTemplate" DataType="{x:Type TabItem}">
+        <Grid ContextMenu="{StaticResource ClosableHeaderMenu}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--<Button Grid.Column="1" x:Name="ButtonTabClose" Height="16" Width="16" Margin="0,0,-3,0"   Command="{Binding Path=CloseCommand}">
+              
+                <Grid>
+                     <Path Data="M 0,3 L 5,10" Stroke="Black" StrokeThickness="1"/>
+                     <Path Data="M 5,3 L 0,10" Stroke="Black" StrokeThickness="1"/>
+                </Grid>
+           </Button>-->
+            <Image Height="16" Width="16" Source="pack://Application:,,,/BingoManager;component/Dictionaries/Bingo.png"/>
+            <ContentPresenter Grid.Column="1" Width="150" Margin="2,0,0,0" Content="{Binding Path=DisplayName}"/>
+        </Grid>
+        <!--<DataTemplate.Triggers>
+            <Trigger SourceName="ButtonTabClose" Property="IsMouseOver" Value="True">
+                <Setter TargetName="ButtonTabClose" Property="Background" Value="Red"/>
+            </Trigger>
+        </DataTemplate.Triggers>-->
+    </DataTemplate>
+
+    <!--Set HEaderTemplate when IsSelected-->
+    <DataTemplate x:Key="tabItemHeaderTemplateSelected" DataType="{x:Type TabItem}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" x:Name="ButtonTabClose" Height="16" Width="16" Margin="0,0,-3,0" Visibility="Visible">
+                <!--Command="{Binding Path=CloseCommand}"-->
+                <Grid>
+                    <Path Data="M 0,3 L 5,9" Stroke="Black" StrokeThickness="1"/>
+                    <Path Data="M 5,3 L 0,9" Stroke="Black" StrokeThickness="1"/>
+                </Grid>
+            </Button>
+            <ContentPresenter Margin="0,0,5,0" Content="{Binding}"/>
+        </Grid>
+        <!--<DataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="ButtonTabClose" Property="Visibility" Value="Visible"/>
+            </Trigger>
+        </DataTemplate.Triggers>-->
+    </DataTemplate>
+    <Style x:Key="tabControlStyle" TargetType="{x:Type TabControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TabPanel Grid.Row="0" IsItemsHost="True" Background="Transparent" />
+                        <Border Name="ContentPanel" Grid.Row="1" Background="White" CornerRadius="0,6,6,6" BorderThickness="3">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.4">
+                                    <GradientStop Color="Orange" Offset=".8" />
+                                    <GradientStop Color="Yellow" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="TabItemScale" ScaleX="1" ScaleY="1" />
+                            </Border.RenderTransform>
+                            <ContentPresenter ContentSource="SelectedContent" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="TabControl.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="TabItemScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="0.0" BeginTime="0:0:0" Duration="0:0:0" AutoReverse="False"/>
+                                    <DoubleAnimation Storyboard.TargetName="TabItemScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" To="1.0" BeginTime="0:0:0.2" Duration="0:0:1" AutoReverse="False"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <!--Background="#FF282828"-->
+                        <Border Name="tabBorder"  BorderBrush="{DynamicResource BlueBackgroundBrush}" BorderThickness="1,1,1,0" CornerRadius="6,30,0,0" Padding="8,4,8,2" >
+                            <TextBlock Name="tabForeground" Foreground="#FF282828"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ContentPresenter ContentSource="Header" />
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="tabBorder" Property="Background" Value="{DynamicResource OrangeBackgroundBrush}" />
+                            <Setter TargetName="tabForeground" Property="Foreground" Value="#FF282828" />
+                            <Setter TargetName="tabForeground" Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="tabBorder" Property="Background" Value="{DynamicResource BlueBackgroundBrush}" />
+                            <Setter TargetName="tabForeground" Property="Foreground" Value="#FF282828" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1" >
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#FFF" Offset="0.0"/>
+                <GradientStop Color="#EEE" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <!--Gradient Brush similar to Fluent Ribbon blue color-->
+    <LinearGradientBrush x:Key="BlueBackgroundBrush" StartPoint="0.5,0" EndPoint="0.5,1" Opacity="0.7">
+        <GradientStop Color="AliceBlue" Offset="0.01" />
+        <GradientStop Color="AliceBlue" Offset=".3" />
+        <GradientStop Color="CornflowerBlue" Offset="0.7" />
+        <GradientStop Color="CornflowerBlue" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BlueBackgroundBrush_5" StartPoint="0.5,0" EndPoint="0.5,1" Opacity="0.5">
+        <GradientStop Color="AliceBlue" Offset="0.01" />
+        <GradientStop Color="AliceBlue" Offset=".3" />
+        <GradientStop Color="CornflowerBlue" Offset="0.7" />
+        <GradientStop Color="CornflowerBlue" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="OrangeBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="Yellow" Offset="0.01" />
+        <GradientStop Color="Yellow" Offset=".15" />
+        <GradientStop Color="Orange" Offset="0.7" />
+        <GradientStop Color="Orange" Offset="1" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+
+
+
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" />
+
+
+
+    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
+
+
+
+    <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
+
+
+
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+</ResourceDictionary>

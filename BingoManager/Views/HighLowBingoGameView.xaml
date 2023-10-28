@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="BingoManager.Views.HighLowBingoGameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:bingo_converter="http://www.RickyConde.com/bingo/sm/converter"
+             xmlns:vw="clr-namespace:BingoManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <bingo_converter:BoolToBackgroundConverter x:Key="BackGroundConverter"/>
+        <bingo_converter:BoolToBackgroundConverter x:Key="FormatNumber"/>
+        <DataTemplate x:Key="itemTemplate">
+            <Border Background="{DynamicResource OrangeBackgroundBrush}"  BorderThickness="1" CornerRadius="20" Width="41" Height="41" Margin="1">
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Hyperlink Command="Find" CommandParameter="{Binding ElementName=SnumberTextBlock, Path=Text}">
+<!---->
+                        <TextBlock Name="Snumber1TextBlock" Text="{Binding}" FontFamily="Century Gothic" FontSize="28" TextAlignment="Center"/>
+                    </Hyperlink>
+                </Label>
+            </Border>
+        </DataTemplate>
+         <DataTemplate x:Key="RowitemTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding SerialNumber,Converter={StaticResource FormatNumber}, ConverterParameter=000000}" HorizontalAlignment="Center" Margin="2" FontWeight="DemiBold"/>
+           <!--<vw:CardView Margin="2"/>-->
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="RowTemplate">
+            <Border>
+                <ListBox ItemsSource="{Binding Tickets}" ItemTemplate="{StaticResource RowitemTemplate}"/>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="SetHighBingoCommand" Command="Find"
+                        CanExecute="SetHighBingoCommand_CanExecute"
+                        Executed="SetHighBingoCommand_Executed"/>
+    </UserControl.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+           
+            
+        </Grid.RowDefinitions>
+          
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <HeaderedContentControl Header="HIGH-LOW BINGO" Style="{DynamicResource SubDisplayArea}">
+            <ListBox ItemsSource="{Binding HighBingoNumbers}" ItemTemplate="{StaticResource itemTemplate}"/>
+      
+       </HeaderedContentControl>
+         <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <Label Margin="2">
+                        <Hyperlink x:Name="LoadWinners">
+                            <TextBlock Text="Load the winners"/>
+                        </Hyperlink>
+                    </Label>
+                    <DataGrid   IsReadOnly="True" ItemsSource="{Binding WonGameCards}" CanUserAddRows="False" CanUserDeleteRows="False"
+                                           RowDetailsVisibilityMode="VisibleWhenSelected" RowDetailsTemplate="{StaticResource RowTemplate}" AutoGenerateColumns="False" AlternationCount="2" FrozenColumnCount="2" AlternatingRowBackground="LightGray" GridLinesVisibility="None">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Prize" Binding="{Binding Prize, StringFormat=c}"/>
+                            <DataGridTextColumn Header="Game" MinWidth="100" Binding="{Binding GameName}"/>
+                            <DataGridTextColumn Header="Total winners" Width="80" Binding="{Binding WinnerCount}"/>
+                            <DataGridTextColumn Header="Prize each" Binding="{Binding PrizeEach,StringFormat=c}"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </StackPanel>
+    </Grid>
+</UserControl>
